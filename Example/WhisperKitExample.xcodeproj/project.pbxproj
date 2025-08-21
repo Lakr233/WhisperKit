@@ -7,15 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		500AF7002E561A54007C02B9 /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = 500AF6FF2E561A54007C02B9 /* WhisperKit */; };
+		5065C8502E57306E001FC3DC /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5065C84F2E57306E001FC3DC /* WhisperKit */; };
+		5065C8512E57306E001FC3DC /* WhisperKit in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 5065C84F2E57306E001FC3DC /* WhisperKit */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		5065C8522E57306E001FC3DC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5065C8512E57306E001FC3DC /* WhisperKit in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		500AF6D32E56197E007C02B9 /* WhisperKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhisperKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5065C82A2E57303B001FC3DC /* WhisperKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhisperKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		500AF6D52E56197E007C02B9 /* WhisperKitExample */ = {
+		5065C82C2E57303B001FC3DC /* WhisperKitExample */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			explicitFolders = (
 				Models,
@@ -26,35 +41,35 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		500AF6D02E56197E007C02B9 /* Frameworks */ = {
+		5065C8272E57303B001FC3DC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				500AF7002E561A54007C02B9 /* WhisperKit in Frameworks */,
+				5065C8502E57306E001FC3DC /* WhisperKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		500AF6CA2E56197E007C02B9 = {
+		5065C8212E57303B001FC3DC = {
 			isa = PBXGroup;
 			children = (
-				500AF6D52E56197E007C02B9 /* WhisperKitExample */,
-				500AF6FE2E561A54007C02B9 /* Frameworks */,
-				500AF6D42E56197E007C02B9 /* Products */,
+				5065C82C2E57303B001FC3DC /* WhisperKitExample */,
+				5065C84E2E57306E001FC3DC /* Frameworks */,
+				5065C82B2E57303B001FC3DC /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		500AF6D42E56197E007C02B9 /* Products */ = {
+		5065C82B2E57303B001FC3DC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				500AF6D32E56197E007C02B9 /* WhisperKitExample.app */,
+				5065C82A2E57303B001FC3DC /* WhisperKitExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		500AF6FE2E561A54007C02B9 /* Frameworks */ = {
+		5065C84E2E57306E001FC3DC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -64,64 +79,65 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		500AF6D22E56197E007C02B9 /* WhisperKitExample */ = {
+		5065C8292E57303B001FC3DC /* WhisperKitExample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 500AF6DF2E56197F007C02B9 /* Build configuration list for PBXNativeTarget "WhisperKitExample" */;
+			buildConfigurationList = 5065C8362E57303E001FC3DC /* Build configuration list for PBXNativeTarget "WhisperKitExample" */;
 			buildPhases = (
-				500AF6CF2E56197E007C02B9 /* Sources */,
-				500AF6D02E56197E007C02B9 /* Frameworks */,
-				500AF6D12E56197E007C02B9 /* Resources */,
+				5065C8262E57303B001FC3DC /* Sources */,
+				5065C8272E57303B001FC3DC /* Frameworks */,
+				5065C8282E57303B001FC3DC /* Resources */,
+				5065C8522E57306E001FC3DC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				500AF6D52E56197E007C02B9 /* WhisperKitExample */,
+				5065C82C2E57303B001FC3DC /* WhisperKitExample */,
 			);
 			name = WhisperKitExample;
 			packageProductDependencies = (
-				500AF6FF2E561A54007C02B9 /* WhisperKit */,
+				5065C84F2E57306E001FC3DC /* WhisperKit */,
 			);
 			productName = WhisperKitExample;
-			productReference = 500AF6D32E56197E007C02B9 /* WhisperKitExample.app */;
+			productReference = 5065C82A2E57303B001FC3DC /* WhisperKitExample.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		500AF6CB2E56197E007C02B9 /* Project object */ = {
+		5065C8222E57303B001FC3DC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
-					500AF6D22E56197E007C02B9 = {
+					5065C8292E57303B001FC3DC = {
 						CreatedOnToolsVersion = 16.4;
 					};
 				};
 			};
-			buildConfigurationList = 500AF6CE2E56197E007C02B9 /* Build configuration list for PBXProject "WhisperKitExample" */;
+			buildConfigurationList = 5065C8252E57303B001FC3DC /* Build configuration list for PBXProject "WhisperKitExample" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 500AF6CA2E56197E007C02B9;
+			mainGroup = 5065C8212E57303B001FC3DC;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				500AF6D22E56197E007C02B9 /* WhisperKitExample */,
+				5065C8292E57303B001FC3DC /* WhisperKitExample */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		500AF6D12E56197E007C02B9 /* Resources */ = {
+		5065C8282E57303B001FC3DC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -131,7 +147,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		500AF6CF2E56197E007C02B9 /* Sources */ = {
+		5065C8262E57303B001FC3DC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -141,7 +157,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		500AF6DD2E56197F007C02B9 /* Debug */ = {
+		5065C8342E57303E001FC3DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -195,17 +211,15 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		500AF6DE2E56197F007C02B9 /* Release */ = {
+		5065C8352E57303E001FC3DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -253,91 +267,107 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
 		};
-		500AF6E02E56197F007C02B9 /* Debug */ = {
+		5065C8372E57303E001FC3DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = WhisperKitExample/ExampleApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 964G86XT2P;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.WhisperKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SUPPORTS_MACCATALYST = YES;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = Debug;
 		};
-		500AF6E12E56197F007C02B9 /* Release */ = {
+		5065C8382E57303E001FC3DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = WhisperKitExample/ExampleApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 964G86XT2P;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.WhisperKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SUPPORTS_MACCATALYST = YES;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		500AF6CE2E56197E007C02B9 /* Build configuration list for PBXProject "WhisperKitExample" */ = {
+		5065C8252E57303B001FC3DC /* Build configuration list for PBXProject "WhisperKitExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				500AF6DD2E56197F007C02B9 /* Debug */,
-				500AF6DE2E56197F007C02B9 /* Release */,
+				5065C8342E57303E001FC3DC /* Debug */,
+				5065C8352E57303E001FC3DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		500AF6DF2E56197F007C02B9 /* Build configuration list for PBXNativeTarget "WhisperKitExample" */ = {
+		5065C8362E57303E001FC3DC /* Build configuration list for PBXNativeTarget "WhisperKitExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				500AF6E02E56197F007C02B9 /* Debug */,
-				500AF6E12E56197F007C02B9 /* Release */,
+				5065C8372E57303E001FC3DC /* Debug */,
+				5065C8382E57303E001FC3DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -345,11 +375,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		500AF6FF2E561A54007C02B9 /* WhisperKit */ = {
+		5065C84F2E57306E001FC3DC /* WhisperKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WhisperKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 500AF6CB2E56197E007C02B9 /* Project object */;
+	rootObject = 5065C8222E57303B001FC3DC /* Project object */;
 }

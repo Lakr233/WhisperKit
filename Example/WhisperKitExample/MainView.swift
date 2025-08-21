@@ -68,37 +68,37 @@ struct MainView: View {
     }
 
     #if !canImport(UIKit)
-    private var sidebarView: some View {
-        List(selection: $selectedItem) {
-            ForEach(SidebarItem.allCases) { item in
-                NavigationLink(value: item) {
-                    HStack(spacing: 12) {
-                        Image(systemName: item.icon)
-                            .font(.title2)
-                            .foregroundStyle(.blue)
-                            .frame(width: 24, height: 24)
+        private var sidebarView: some View {
+            List(selection: $selectedItem) {
+                ForEach(SidebarItem.allCases) { item in
+                    NavigationLink(value: item) {
+                        HStack(spacing: 12) {
+                            Image(systemName: item.icon)
+                                .font(.title2)
+                                .foregroundStyle(.blue)
+                                .frame(width: 24, height: 24)
 
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(item.title)
-                                .font(.headline)
-                            Text(item.description)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(item.title)
+                                    .font(.headline)
+                                Text(item.description)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
                         }
+                        .padding(.vertical, 4)
                     }
-                    .padding(.vertical, 4)
                 }
             }
-        }
-        .navigationTitle("WhisperKit Demo")
-        .navigationDestination(for: SidebarItem.self) { item in
-            switch item {
-            case .transcribe: TranscribeView()
-            case .vad: VADView()
+            .navigationTitle("WhisperKit Demo")
+            .navigationDestination(for: SidebarItem.self) { item in
+                switch item {
+                case .transcribe: TranscribeView()
+                case .vad: VADView()
+                }
             }
+            .frame(minWidth: 250)
         }
-        .frame(minWidth: 250)
-    }
     #endif
 
     @ViewBuilder

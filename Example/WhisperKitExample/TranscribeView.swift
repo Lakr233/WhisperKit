@@ -155,12 +155,12 @@ extension TranscribeView {
 
     private var dropAreaView: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 12)
-                .fill(isDragOver ? Color.blue.opacity(0.2) : Color.gray.opacity(0.1))
-                .strokeBorder(
-                    isDragOver ? Color.blue : Color.gray.opacity(0.3),
-                    style: StrokeStyle(lineWidth: 2, dash: [8, 4])
-                )
+            RoundedRectangle(cornerRadius: 12).strokeBorder(
+                isDragOver ? Color.blue : Color.gray.opacity(0.3),
+                style: StrokeStyle(lineWidth: 2, dash: [8, 4])
+            )
+            .foregroundStyle(isDragOver ? Color.blue.opacity(0.2) : Color.gray.opacity(0.1))
+
             #if canImport(UIKit)
                 .frame(height: 100)
             #else

@@ -13,7 +13,7 @@ let package = Package(
         .visionOS(.v1),
     ],
     products: [
-        .library(name: "WhisperKit", targets: ["WhisperKit"]),
+        .library(name: "WhisperKit", type: .dynamic, targets: ["WhisperKit"]),
     ],
     targets: [
         .target(
