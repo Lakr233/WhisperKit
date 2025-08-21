@@ -163,8 +163,8 @@ extension WhisperEngine {
             let segmentCount = whisper_full_n_segments_from_state(state)
             for i in max(0, segmentCount - nNew) ..< segmentCount {
                 let text = String(cString: whisper_full_get_segment_text_from_state(state, Int32(i)))
-                let startTime = Double(whisper_full_get_segment_t0_from_state(state, Int32(i))) / 1000.0
-                let endTime = Double(whisper_full_get_segment_t1_from_state(state, Int32(i))) / 1000.0
+                let startTime = Double(whisper_full_get_segment_t0_from_state(state, Int32(i))) / 100.0
+                let endTime = Double(whisper_full_get_segment_t1_from_state(state, Int32(i))) / 100.0
                 wrapper.handler(.transcribeReceivedSegment(text: text, startTime: startTime, endTime: endTime))
             }
         }
@@ -236,8 +236,8 @@ extension WhisperEngine {
 
             let segment = TranscriptionSegment(
                 text: text,
-                startTime: TimeInterval(startTime) / 1000.0,
-                endTime: TimeInterval(endTime) / 1000.0,
+                startTime: TimeInterval(startTime) / 100.0,
+                endTime: TimeInterval(endTime) / 100.0,
                 tokens: tokens,
                 noSpeechProbability: noSpeechProb,
                 speakerTurnNext: speakerTurnNext
@@ -262,8 +262,8 @@ extension WhisperEngine {
                 text: tokenText,
                 tokenId: tokenData.id,
                 probability: tokenData.p,
-                startTime: TimeInterval(tokenData.t0) / 1000.0,
-                endTime: TimeInterval(tokenData.t1) / 1000.0,
+                startTime: TimeInterval(tokenData.t0) / 100.0,
+                endTime: TimeInterval(tokenData.t1) / 100.0,
                 voiceLength: tokenData.vlen
             ))
         }
