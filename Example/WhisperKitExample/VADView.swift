@@ -47,14 +47,28 @@ struct VADView: View {
                     isDragOver ? Color.blue : Color.gray.opacity(0.3),
                     style: StrokeStyle(lineWidth: 2, dash: [8, 4])
                 )
+            #if canImport(UIKit)
+                .frame(height: 100)
+            #else
                 .frame(height: 120)
+            #endif
             VStack(spacing: 8) {
                 Image(systemName: isDragOver ? "arrow.down.circle.fill" : "plus.circle.dashed")
+                #if canImport(UIKit)
+                    .font(.title)
+                #else
                     .font(.largeTitle)
+                #endif
                     .foregroundStyle(isDragOver ? .blue : .gray)
-                Text(isDragOver ? "Drop to add file" : "Drag audio file here")
-                    .font(.headline)
-                    .foregroundStyle(isDragOver ? .blue : .gray)
+                Group {
+                    #if canImport(UIKit)
+                        Text(isDragOver ? "Drop to add file" : "Tap to select audio file")
+                    #else
+                        Text(isDragOver ? "Drop to add file" : "Drag audio file here")
+                    #endif
+                }
+                .font(.headline)
+                .foregroundStyle(isDragOver ? .blue : .gray)
                 if !audioFileName.isEmpty {
                     Text("Current file: \(audioFileName)")
                         .font(.caption)
@@ -62,6 +76,12 @@ struct VADView: View {
                 }
             }
         }
+        #if canImport(UIKit)
+        .onTapGesture {
+            // iOS: Show file picker
+            // TODO: Implement file picker for iOS
+        }
+        #endif
         .onDrop(of: [.audio], isTargeted: $isDragOver) { providers in
             handleDrop(providers: providers)
             return true

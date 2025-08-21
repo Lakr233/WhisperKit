@@ -12,12 +12,14 @@ WhisperKit is a SwiftUI example application that demonstrates powerful on-device
 
 ## Requirements
 
+You must follow these requirements to run WhisperKit, otherwise it will likely not work as expected. We dont block you from compiling the code, but be sure to test them out.
+
 - Swift 5.9 or later
 - Supported platforms:
-  - macOS 12+
-  - iOS 15+
-  - tvOS 15+
-  - visionOS 1+
+  - iOS 16.4+
+  - macOS 13.3+ (Catalyst 16.4+)
+  - tvOS 16.4+ 
+  - visionOS 1.0+
 
 ## Installation & Setup
 

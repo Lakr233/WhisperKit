@@ -10,6 +10,10 @@ import SwiftUI
 import UniformTypeIdentifiers
 import WhisperKit
 
+#if canImport(UIKit)
+    import UIKit
+#endif
+
 struct TranscribeView: View {
     // MARK: - State Properties
 
@@ -59,19 +63,46 @@ extension TranscribeView {
     }
 
     private var settingsView: some View {
-        HStack {
-            Spacer()
-
-            Button(action: { showLanguageSettings.toggle() }) {
-                HStack {
-                    Text("Language: \(languageDisplayName)")
-                    Image(systemName: "chevron.down")
-                        .font(.caption)
-                }
+        VStack(spacing: 12) {
+            HStack {
+                Text("Language Settings")
+                    .font(.headline)
+                Spacer()
             }
-            .buttonStyle(.bordered)
-            .popover(isPresented: $showLanguageSettings) {
-                languageSelectionView
+
+            HStack {
+                Text("Selected Language:")
+                    .foregroundStyle(.secondary)
+                Spacer()
+
+                Button(action: { showLanguageSettings.toggle() }) {
+                    HStack {
+                        Text(languageDisplayName)
+                        Image(systemName: "chevron.down")
+                            .font(.caption)
+                    }
+                }
+                .buttonStyle(.bordered)
+                #if canImport(UIKit)
+                    .sheet(isPresented: $showLanguageSettings) {
+                        NavigationView {
+                            languageSelectionView
+                                .navigationTitle("Select Language")
+                                .navigationBarTitleDisplayMode(.inline)
+                                .toolbar {
+                                    ToolbarItem(placement: .navigationBarTrailing) {
+                                        Button("Done") {
+                                            showLanguageSettings = false
+                                        }
+                                    }
+                                }
+                        }
+                    }
+                #else
+                    .popover(isPresented: $showLanguageSettings) {
+                            languageSelectionView
+                        }
+                #endif
             }
         }
         .padding()
@@ -81,9 +112,11 @@ extension TranscribeView {
 
     private var languageSelectionView: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Select Language")
-                .font(.headline)
-                .padding(.horizontal)
+            #if !canImport(UIKit)
+                Text("Select Language")
+                    .font(.headline)
+                    .padding(.horizontal)
+            #endif
 
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 4) {
@@ -110,7 +143,11 @@ extension TranscribeView {
                     }
                 }
             }
+            #if canImport(UIKit)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            #else
             .frame(width: 200, height: 300)
+            #endif
             .padding(.horizontal)
         }
         .padding(.vertical)
@@ -124,16 +161,30 @@ extension TranscribeView {
                     isDragOver ? Color.blue : Color.gray.opacity(0.3),
                     style: StrokeStyle(lineWidth: 2, dash: [8, 4])
                 )
+            #if canImport(UIKit)
+                .frame(height: 100)
+            #else
                 .frame(height: 120)
+            #endif
 
             VStack(spacing: 8) {
                 Image(systemName: isDragOver ? "arrow.down.circle.fill" : "plus.circle.dashed")
+                #if canImport(UIKit)
+                    .font(.title)
+                #else
                     .font(.largeTitle)
+                #endif
                     .foregroundStyle(isDragOver ? .blue : .gray)
 
-                Text(isDragOver ? "Drop to add file" : "Drag audio file here")
-                    .font(.headline)
-                    .foregroundStyle(isDragOver ? .blue : .gray)
+                Group {
+                    #if canImport(UIKit)
+                        Text(isDragOver ? "Drop to add file" : "Tap to select audio file")
+                    #else
+                        Text(isDragOver ? "Drop to add file" : "Drag audio file here")
+                    #endif
+                }
+                .font(.headline)
+                .foregroundStyle(isDragOver ? .blue : .gray)
 
                 if !audioFileName.isEmpty {
                     Text("Current file: \(audioFileName)")
@@ -142,6 +193,12 @@ extension TranscribeView {
                 }
             }
         }
+        #if canImport(UIKit)
+        .onTapGesture {
+            // iOS: Show file picker
+            // TODO: Implement file picker for iOS
+        }
+        #endif
         .onDrop(of: [.audio], isTargeted: $isDragOver) { providers in
             handleDrop(providers: providers)
             return true
@@ -374,8 +431,13 @@ extension TranscribeView {
 
     private func copyToClipboard() {
         guard let result = transcriptionResult else { return }
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(result.fullText, forType: .string)
+
+        #if canImport(UIKit)
+            UIPasteboard.general.string = result.fullText
+        #else
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(result.fullText, forType: .string)
+        #endif
     }
 
     private func getWhisperInstance() -> WhisperKit? {
