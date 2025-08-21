@@ -45,7 +45,6 @@ public struct WhisperConfiguration {
     // MARK: - Language Settings
 
     public var language: String?
-    public var autoDetectLanguage: Bool = true
     public var translate: Bool = false
 
     // MARK: - Transcription Options

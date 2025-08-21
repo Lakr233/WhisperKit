@@ -50,7 +50,6 @@ public final class WhisperKit {
         config.language = language
         config.useGPU = useGPU
         config.useTokenTimestamps = enableTokenTimestamps
-        config.autoDetectLanguage = language == nil
 
         try self.init(modelURL: url, configuration: config)
     }

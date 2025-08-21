@@ -5,7 +5,6 @@ import WhisperKit
 
 struct VADView: View {
     @State private var isProcessing = false
-    @State private var isDragOver = false
     @State private var processingProgress = ""
     @State private var audioFileName = ""
     @State private var vadSegments: [VADSegment] = []
@@ -15,7 +14,7 @@ struct VADView: View {
     var body: some View {
         VStack(spacing: 20) {
             headerView
-            dropAreaView
+            fileSelectionView
             processingView
             vadResultView
             Spacer()
@@ -39,40 +38,52 @@ struct VADView: View {
         }
     }
 
-    private var dropAreaView: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 12)
-                .strokeBorder(
-                    isDragOver ? Color.blue : Color.gray.opacity(0.3),
-                    style: StrokeStyle(lineWidth: 2, dash: [8, 4])
-                )
-                .foregroundStyle(isDragOver ? Color.blue.opacity(0.2) : Color.gray.opacity(0.1))
-            #if canImport(UIKit)
-                .frame(height: 100)
-            #else
-                .frame(height: 120)
-            #endif
-            VStack(spacing: 8) {
-                Image(systemName: isDragOver ? "arrow.down.circle.fill" : "plus.circle.dashed")
-                #if canImport(UIKit)
-                    .font(.title)
-                #else
-                    .font(.largeTitle)
-                #endif
-                    .foregroundStyle(isDragOver ? .blue : .gray)
-                Text(isDragOver ? "Drop to add file" : "Drag audio file here")
-                    .font(.headline)
-                    .foregroundStyle(isDragOver ? .blue : .gray)
-                if !audioFileName.isEmpty {
-                    Text("Current file: \(audioFileName)")
+    private var fileSelectionView: some View {
+        VStack(spacing: 12) {
+            Button(action: selectAudioFile) {
+                VStack(spacing: 8) {
+                    Image(systemName: "folder.badge.plus")
+                    #if canImport(UIKit)
+                        .font(.title)
+                    #else
+                        .font(.largeTitle)
+                    #endif
+                        .foregroundStyle(.blue)
+
+                    Text("Select Audio File")
+                        .font(.headline)
+                        .foregroundStyle(.blue)
+
+                    Text("Click to choose an audio file")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
+                .frame(maxWidth: .infinity)
+                #if canImport(UIKit)
+                    .frame(height: 100)
+                #else
+                    .frame(height: 120)
+                #endif
             }
-        }
-        .onDrop(of: [.audio], isTargeted: $isDragOver) { providers in
-            handleDrop(providers: providers)
-            return true
+            .buttonStyle(.plain)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.blue.opacity(0.5), lineWidth: 2)
+                    .background(Color.blue.opacity(0.1))
+            )
+            .cornerRadius(12)
+
+            if !audioFileName.isEmpty {
+                HStack {
+                    Image(systemName: "music.note")
+                        .foregroundStyle(.green)
+                    Text("Selected: \(audioFileName)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                }
+                .padding(.horizontal)
+            }
         }
     }
 
@@ -127,19 +138,12 @@ struct VADView: View {
         }
     }
 
-    private func handleDrop(providers: [NSItemProvider]) {
-        guard let provider = providers.first else { return }
-        provider.loadItem(forTypeIdentifier: UTType.audio.identifier, options: nil) { item, error in
-            if let error {
-                print("Error loading item: \(error)")
-                return
-            }
-            guard let url = item as? URL else {
-                print("Item is not a URL")
-                return
-            }
+    private func selectAudioFile() {
+        FileUtilities.presentAudioFilePicker { url in
+            guard let url else { return }
+
             DispatchQueue.main.async {
-                audioFileName = url.lastPathComponent
+                audioFileName = FileUtilities.getDisplayName(for: url)
                 processAudioFile(url: url)
             }
         }

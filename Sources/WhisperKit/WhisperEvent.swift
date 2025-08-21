@@ -8,11 +8,13 @@
 import Foundation
 
 public enum WhisperEvent {
-    case progress(progress: Float, segment: Int, totalSegments: Int)
-    case segmentCompleted(text: String, startTime: TimeInterval, endTime: TimeInterval)
-    case encodingStarted
-    case encodingCompleted
+    case languageDetectionBegin
     case languageDetected(language: String, probability: Float)
+    case languageDetectionEnd
+    case transcribeBegin
+    case transcribeReceivedProgress(progress: Progress)
+    case transcribeReceivedSegment(text: String, startTime: TimeInterval, endTime: TimeInterval)
+    case transcribeEnd
     case failed(error: WhisperError)
     case success(result: TranscriptionResult)
 }

@@ -17,9 +17,8 @@ import WhisperKit
 struct TranscribeView: View {
     // MARK: - State Properties
 
-    @State private var transcriptionText = "Drag an audio file here to start transcription..."
+    @State private var transcriptionText = "Click to select an audio file to start transcription..."
     @State private var isProcessing = false
-    @State private var isDragOver = false
     @State private var processingProgress = ""
     @State private var audioFileName = ""
     @State private var transcriptionResult: TranscriptionResult?
@@ -32,7 +31,7 @@ struct TranscribeView: View {
         VStack(spacing: 20) {
             headerView
             settingsView
-            dropAreaView
+            fileSelectionView
             processingView
             transcriptionResultView
             Spacer()
@@ -153,43 +152,52 @@ extension TranscribeView {
         .padding(.vertical)
     }
 
-    private var dropAreaView: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 12).strokeBorder(
-                isDragOver ? Color.blue : Color.gray.opacity(0.3),
-                style: StrokeStyle(lineWidth: 2, dash: [8, 4])
-            )
-            .foregroundStyle(isDragOver ? Color.blue.opacity(0.2) : Color.gray.opacity(0.1))
+    private var fileSelectionView: some View {
+        VStack(spacing: 12) {
+            Button(action: selectAudioFile) {
+                VStack(spacing: 8) {
+                    Image(systemName: "folder.badge.plus")
+                    #if canImport(UIKit)
+                        .font(.title)
+                    #else
+                        .font(.largeTitle)
+                    #endif
+                        .foregroundStyle(.blue)
 
-            #if canImport(UIKit)
-                .frame(height: 100)
-            #else
-                .frame(height: 120)
-            #endif
+                    Text("Select Audio File")
+                        .font(.headline)
+                        .foregroundStyle(.blue)
 
-            VStack(spacing: 8) {
-                Image(systemName: isDragOver ? "arrow.down.circle.fill" : "plus.circle.dashed")
-                #if canImport(UIKit)
-                    .font(.title)
-                #else
-                    .font(.largeTitle)
-                #endif
-                    .foregroundStyle(isDragOver ? .blue : .gray)
-
-                Text(isDragOver ? "Drop to add file" : "Drag audio file here")
-                    .font(.headline)
-                    .foregroundStyle(isDragOver ? .blue : .gray)
-
-                if !audioFileName.isEmpty {
-                    Text("Current file: \(audioFileName)")
+                    Text("Click to choose an audio file")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
+                .frame(maxWidth: .infinity)
+                #if canImport(UIKit)
+                    .frame(height: 100)
+                #else
+                    .frame(height: 120)
+                #endif
             }
-        }
-        .onDrop(of: [.audio], isTargeted: $isDragOver) { providers in
-            handleDrop(providers: providers)
-            return true
+            .buttonStyle(.plain)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.blue.opacity(0.5), lineWidth: 2)
+                    .background(Color.blue.opacity(0.1))
+            )
+            .cornerRadius(12)
+
+            if !audioFileName.isEmpty {
+                HStack {
+                    Image(systemName: "music.note")
+                        .foregroundStyle(.green)
+                    Text("Selected: \(audioFileName)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                }
+                .padding(.horizontal)
+            }
         }
     }
 
@@ -329,23 +337,13 @@ extension TranscribeView {
         supportedLanguages.first { $0.code == selectedLanguage }?.name ?? "Auto Detect"
     }
 
-    private func handleDrop(providers: [NSItemProvider]) {
-        guard let provider = providers.first else { return }
-
-        provider.loadItem(forTypeIdentifier: UTType.audio.identifier, options: nil) { item, error in
-            if let error {
-                print("Error loading item: \(error)")
-                return
-            }
-
-            guard let url = item as? URL else {
-                print("Item is not a URL")
-                return
-            }
+    private func selectAudioFile() {
+        FileUtilities.presentAudioFilePicker { url in
+            guard let url else { return }
 
             DispatchQueue.main.async {
-                audioFileName = url.lastPathComponent
-                processAudioFile(url: url)
+                self.audioFileName = FileUtilities.getDisplayName(for: url)
+                self.processAudioFile(url: url)
             }
         }
     }
@@ -393,9 +391,9 @@ extension TranscribeView {
             print(event)
             DispatchQueue.main.async {
                 switch event {
-                case let .progress(progress, _, _):
-                    self.processingProgress = "Transcription progress: \(Int(progress * 100))%"
-                case let .segmentCompleted(text, _, _):
+                case let .transcribeReceivedProgress(progress):
+                    self.processingProgress = "Transcription progress: \(Int(progress.fractionCompleted * 100))%"
+                case let .transcribeReceivedSegment(text, _, _):
                     self.processingProgress = "Processing segment: \(text.prefix(20))..."
                 default:
                     break

@@ -28,20 +28,24 @@ public extension WhisperEngine {
             var detectedLanguage: String?
             var languageProbability: Float?
 
-            if configuration.autoDetectLanguage {
+            eventHandler?(.languageDetectionBegin)
+            do {
                 let detection = try detectLanguage(from: audioData)
                 detectedLanguage = detection.languageCode
                 languageProbability = detection.probability
                 eventHandler?(.languageDetected(language: detection.languageCode, probability: detection.probability))
+            } catch {
+                // continue even if language detection fails
             }
+            eventHandler?(.languageDetectionEnd)
 
-            eventHandler?(.encodingStarted)
+            eventHandler?(.transcribeBegin)
 
             let segments = try performSynchronousTranscription(audioData: audioData, eventHandler: eventHandler)
             let processingTime = Date().timeIntervalSince(startTime)
             let audioLength = TimeInterval(audioData.count) / TimeInterval(configuration.sampleRate)
 
-            eventHandler?(.encodingCompleted)
+            eventHandler?(.transcribeEnd)
 
             let result = TranscriptionResult(
                 segments: segments,
@@ -140,7 +144,10 @@ extension WhisperEngine {
             guard let userData else { return }
             let wrapper = Unmanaged<EventHandlerWrapper>.fromOpaque(userData).takeUnretainedValue()
             let segmentCount = whisper_full_n_segments_from_state(state)
-            wrapper.handler(.progress(progress: Float(progress) / 100.0, segment: Int(progress), totalSegments: Int(segmentCount)))
+            let progressValue = Progress()
+            progressValue.totalUnitCount = 100
+            progressValue.completedUnitCount = Int64(progress)
+            wrapper.handler(.transcribeReceivedProgress(progress: progressValue))
         }
         let segmentCallback: @convention(c) (OpaquePointer?, OpaquePointer?, Int32, UnsafeMutableRawPointer?) -> Void = { _, state, nNew, userData in
             guard let userData else { return }
@@ -150,13 +157,13 @@ extension WhisperEngine {
                 let text = String(cString: whisper_full_get_segment_text_from_state(state, Int32(i)))
                 let startTime = Double(whisper_full_get_segment_t0_from_state(state, Int32(i))) / 1000.0
                 let endTime = Double(whisper_full_get_segment_t1_from_state(state, Int32(i))) / 1000.0
-                wrapper.handler(.segmentCompleted(text: text, startTime: startTime, endTime: endTime))
+                wrapper.handler(.transcribeReceivedSegment(text: text, startTime: startTime, endTime: endTime))
             }
         }
         let encoderBeginCallback: @convention(c) (OpaquePointer?, OpaquePointer?, UnsafeMutableRawPointer?) -> Bool = { _, _, userData in
             guard let userData else { return true }
             let wrapper = Unmanaged<EventHandlerWrapper>.fromOpaque(userData).takeUnretainedValue()
-            wrapper.handler(.encodingStarted)
+            wrapper.handler(.transcribeBegin)
             return true
         }
         params.progress_callback = progressCallback
