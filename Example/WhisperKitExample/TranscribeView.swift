@@ -29,7 +29,6 @@ struct TranscribeView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            headerView
             settingsView
             fileSelectionView
             processingView
@@ -45,22 +44,6 @@ struct TranscribeView: View {
 // MARK: - View Components
 
 extension TranscribeView {
-    private var headerView: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "waveform.and.mic")
-                .font(.system(size: 48))
-                .foregroundStyle(.blue)
-
-            Text("WhisperKit Audio Transcription")
-                .font(.title2)
-                .fontWeight(.semibold)
-
-            Text("Supports mp3, wav, m4a, aac and other audio formats")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-    }
-
     private var settingsView: some View {
         VStack(spacing: 12) {
             HStack {

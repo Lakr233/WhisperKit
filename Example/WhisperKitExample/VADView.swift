@@ -13,7 +13,6 @@ struct VADView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            headerView
             fileSelectionView
             processingView
             vadResultView
@@ -22,20 +21,6 @@ struct VADView: View {
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle("Voice Activity Detection")
-    }
-
-    private var headerView: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "waveform.circle")
-                .font(.system(size: 48))
-                .foregroundStyle(.blue)
-            Text("WhisperKit Voice Activity Detection")
-                .font(.title2)
-                .fontWeight(.semibold)
-            Text("Supports mp3, wav, m4a, aac and other audio formats")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
     }
 
     private var fileSelectionView: some View {
