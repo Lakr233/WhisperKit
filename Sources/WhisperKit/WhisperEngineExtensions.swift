@@ -145,7 +145,7 @@ extension WhisperEngine {
             let wrapper = Unmanaged<EventHandlerWrapper>.fromOpaque(userData).takeUnretainedValue()
             let segmentCount = whisper_full_n_segments_from_state(state)
             let progressValue = Progress()
-            progressValue.totalUnitCount = 100
+            progressValue.totalUnitCount = .init(segmentCount)
             progressValue.completedUnitCount = Int64(progress)
             wrapper.handler(.transcribeReceivedProgress(progress: progressValue))
         }
