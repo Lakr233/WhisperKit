@@ -5,8 +5,8 @@
 //  Created by 秋星桥 on 8/21/25.
 //
 
-import WhisperKit
 import Foundation
+import WhisperKit
 
 class WhisperKitManager {
     static let shared = WhisperKitManager()

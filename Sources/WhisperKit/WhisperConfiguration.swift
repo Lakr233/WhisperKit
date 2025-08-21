@@ -100,6 +100,9 @@ public struct WhisperConfiguration {
 
 public extension WhisperConfiguration {
     private static var cLanguagePointers: [String: UnsafePointer<CChar>] = [:]
+    private static let initialPrompt = """
+    You are a helpful assistant that translates speech to text. Please translate the speech into text carefully and accurately. Please use the correct punctuation and capitalization for the language you are transcribing. Do not add extra spaces or punctuation marks that are not present in the original speech. For silent or non-speech segments, please return an empty string or null.
+    """
 
     static func cLanguagePointer(language: String?) -> UnsafePointer<CChar>? {
         guard let language else { return nil }
@@ -115,5 +118,9 @@ public extension WhisperConfiguration {
         let ans = UnsafePointer(pointer)
         cLanguagePointers[language] = ans
         return ans
+    }
+
+    static func cInitialPrompt() -> UnsafePointer<CChar>? {
+        cLanguagePointer(language: initialPrompt)
     }
 }

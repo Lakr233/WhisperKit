@@ -29,7 +29,6 @@ struct TranscribeView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            settingsView
             fileSelectionView
             processingView
             transcriptionResultView
@@ -44,97 +43,6 @@ struct TranscribeView: View {
 // MARK: - View Components
 
 extension TranscribeView {
-    private var settingsView: some View {
-        VStack(spacing: 12) {
-            HStack {
-                Text("Language Settings")
-                    .font(.headline)
-                Spacer()
-            }
-
-            HStack {
-                Text("Selected Language:")
-                    .foregroundStyle(.secondary)
-                Spacer()
-
-                Button(action: { showLanguageSettings.toggle() }) {
-                    HStack {
-                        Text(languageDisplayName)
-                        Image(systemName: "chevron.down")
-                            .font(.caption)
-                    }
-                }
-                .buttonStyle(.bordered)
-                #if canImport(UIKit)
-                    .sheet(isPresented: $showLanguageSettings) {
-                        NavigationView {
-                            languageSelectionView
-                                .navigationTitle("Select Language")
-                                .navigationBarTitleDisplayMode(.inline)
-                                .toolbar {
-                                    ToolbarItem(placement: .navigationBarTrailing) {
-                                        Button("Done") {
-                                            showLanguageSettings = false
-                                        }
-                                    }
-                                }
-                        }
-                    }
-                #else
-                    .popover(isPresented: $showLanguageSettings) {
-                            languageSelectionView
-                        }
-                #endif
-            }
-        }
-        .padding()
-        .background(Color.gray.opacity(0.1))
-        .cornerRadius(12)
-    }
-
-    private var languageSelectionView: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            #if !canImport(UIKit)
-                Text("Select Language")
-                    .font(.headline)
-                    .padding(.horizontal)
-            #endif
-
-            ScrollView {
-                LazyVStack(alignment: .leading, spacing: 4) {
-                    ForEach(supportedLanguages, id: \.code) { language in
-                        Button(action: {
-                            selectedLanguage = language.code
-                            showLanguageSettings = false
-                        }) {
-                            HStack {
-                                Text(language.name)
-                                    .foregroundStyle(.primary)
-                                Spacer()
-                                if selectedLanguage == language.code {
-                                    Image(systemName: "checkmark")
-                                        .foregroundStyle(.blue)
-                                }
-                            }
-                            .padding(.horizontal)
-                            .padding(.vertical, 8)
-                        }
-                        .buttonStyle(.plain)
-                        .background(selectedLanguage == language.code ? Color.blue.opacity(0.1) : Color.clear)
-                        .cornerRadius(6)
-                    }
-                }
-            }
-            #if canImport(UIKit)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            #else
-            .frame(width: 200, height: 300)
-            #endif
-            .padding(.horizontal)
-        }
-        .padding(.vertical)
-    }
-
     private var fileSelectionView: some View {
         VStack(spacing: 12) {
             Button(action: selectAudioFile) {
@@ -312,14 +220,6 @@ enum TranscriptionError: Error {
 }
 
 extension TranscribeView {
-    private var supportedLanguages: [LanguageOption] {
-        LanguageUtilities.getCommonLanguageOptions()
-    }
-
-    private var languageDisplayName: String {
-        supportedLanguages.first { $0.code == selectedLanguage }?.name ?? "Auto Detect"
-    }
-
     private func selectAudioFile() {
         FileUtilities.presentAudioFilePicker { url in
             guard let url else { return }
