@@ -18,6 +18,18 @@ private let isUnsupportedDeviceVersionForMetalCompute = {
     return false
 }()
 
+private let allowedLanguageCodes: Set<String> = [
+    "en", "zh", "de", "es", "ru", "ko", "fr", "ja", "pt", "tr", "pl",
+    "ca", "nl", "ar", "sv", "it", "id", "hi", "fi", "vi", "he", "uk",
+    "el", "ms", "cs", "ro", "da", "hu", "ta", "no", "th", "ur", "hr",
+    "bg", "lt", "la", "mi", "ml", "cy", "sk", "te", "fa", "lv", "bn",
+    "sr", "az", "sl", "kn", "et", "mk", "br", "eu", "is", "hy", "ne",
+    "mn", "bs", "kk", "sq", "sw", "gl", "mr", "pa", "si", "km", "sn",
+    "yo", "so", "af", "oc", "ka", "be", "tg", "sd", "gu", "am", "yi",
+    "lo", "uz", "fo", "ht", "ps", "tk", "nn", "mt", "sa", "lb", "my",
+    "bo", "tl", "mg", "as", "tt", "haw", "ln", "ha", "ba", "jw", "su",
+]
+
 public struct WhisperConfiguration {
     // MARK: - Audio Processing
 
@@ -44,7 +56,17 @@ public struct WhisperConfiguration {
 
     // MARK: - Language Settings
 
-    public var language: String?
+    public var language: String? {
+        didSet {
+            if let language {
+                assert(
+                    allowedLanguageCodes.contains(language),
+                    "Unsupported language code: \(language)."
+                )
+            }
+        }
+    }
+
     public var translate: Bool = false
 
     // MARK: - Transcription Options
@@ -86,4 +108,24 @@ public struct WhisperConfiguration {
     public init() {}
 
     public static let `default` = WhisperConfiguration()
+}
+
+public extension WhisperConfiguration {
+    private static var cLanguagePointers: [String: UnsafePointer<CChar>] = [:]
+
+    static func cLanguagePointer(language: String?) -> UnsafePointer<CChar>? {
+        guard let language else { return nil }
+        if let existingPointer = cLanguagePointers[language] {
+            return existingPointer
+        }
+        let size = language.utf8.count + 1
+        let pointer = UnsafeMutablePointer<CChar>.allocate(capacity: size)
+        _ = language.withCString { input in
+            memcpy(pointer, input, size - 1)
+        }
+        pointer[size - 1] = 0 // Null-terminate the string
+        let ans = UnsafePointer(pointer)
+        cLanguagePointers[language] = ans
+        return ans
+    }
 }

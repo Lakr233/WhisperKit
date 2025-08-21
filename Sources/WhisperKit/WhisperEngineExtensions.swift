@@ -8,6 +8,8 @@
 import Foundation
 import whisper
 
+public typealias WhisperEventHandler = (WhisperEvent) -> Void
+
 // MARK: - EventHandlerWrapper
 
 private class EventHandlerWrapper {
@@ -21,27 +23,32 @@ private class EventHandlerWrapper {
 // MARK: - WhisperEngine Inference Extension
 
 public extension WhisperEngine {
-    func transcribe(audioData: [Float], eventHandler: ((WhisperEvent) -> Void)? = nil) -> Result<TranscriptionResult, Error> {
+    func transcribe(audioData: [Float], eventHandler: WhisperEventHandler? = nil) -> Result<TranscriptionResult, Error> {
         let startTime = Date()
 
         do {
             var detectedLanguage: String?
             var languageProbability: Float?
 
-            eventHandler?(.languageDetectionBegin)
-            do {
-                let detection = try detectLanguage(from: audioData)
-                detectedLanguage = detection.languageCode
-                languageProbability = detection.probability
-                eventHandler?(.languageDetected(language: detection.languageCode, probability: detection.probability))
-            } catch {
-                // continue even if language detection fails
+            if let lang = configuration.language {
+                detectedLanguage = lang
+                languageProbability = 1.0
+            } else {
+                eventHandler?(.languageDetectionBegin)
+                do {
+                    let detection = try detectLanguage(from: audioData)
+                    detectedLanguage = detection.languageCode
+                    languageProbability = detection.probability
+                    eventHandler?(.languageDetected(language: detection.languageCode, probability: detection.probability))
+                } catch {
+                    // continue even if language detection fails
+                }
+                eventHandler?(.languageDetectionEnd)
             }
-            eventHandler?(.languageDetectionEnd)
 
             eventHandler?(.transcribeBegin)
 
-            let segments = try performSynchronousTranscription(audioData: audioData, eventHandler: eventHandler)
+            let segments = try performTranscribe(audioData: audioData, language: detectedLanguage, eventHandler: eventHandler)
             let processingTime = Date().timeIntervalSince(startTime)
             let audioLength = TimeInterval(audioData.count) / TimeInterval(configuration.sampleRate)
 
@@ -114,14 +121,13 @@ public extension WhisperEngine {
 extension WhisperEngine {
     // MARK: - Private Methods
 
-    private func performSynchronousTranscription(audioData: [Float], eventHandler: ((WhisperEvent) -> Void)? = nil) throws -> [TranscriptionSegment] {
-        guard let context, let state else {
-            throw WhisperError.contextNotInitialized
-        }
-
-        guard !audioData.isEmpty else {
-            throw WhisperError.invalidBuffer
-        }
+    private func performTranscribe(
+        audioData: [Float],
+        language: String? = nil,
+        eventHandler: WhisperEventHandler? = nil
+    ) throws -> [TranscriptionSegment] {
+        guard let context, let state else { throw WhisperError.contextNotInitialized }
+        guard !audioData.isEmpty else { throw WhisperError.invalidBuffer }
 
         var params = whisper_full_default_params(
             configuration.samplingStrategy == .greedy
@@ -129,7 +135,10 @@ extension WhisperEngine {
                 : WHISPER_SAMPLING_BEAM_SEARCH
         )
 
-        configureTranscriptionParameters(&params)
+        configureTranscribeParameters(&params)
+        if let language, !language.isEmpty {
+            params.language = WhisperConfiguration.cLanguagePointer(language: language)
+        }
 
         var userData: UnsafeMutableRawPointer?
         var handlerBox: Unmanaged<AnyObject>?
@@ -140,12 +149,11 @@ extension WhisperEngine {
             userData = handlerBox?.toOpaque()
         }
 
-        let progressCallback: @convention(c) (OpaquePointer?, OpaquePointer?, Int32, UnsafeMutableRawPointer?) -> Void = { _, state, progress, userData in
+        let progressCallback: @convention(c) (OpaquePointer?, OpaquePointer?, Int32, UnsafeMutableRawPointer?) -> Void = { _, _, progress, userData in
             guard let userData else { return }
             let wrapper = Unmanaged<EventHandlerWrapper>.fromOpaque(userData).takeUnretainedValue()
-            let segmentCount = whisper_full_n_segments_from_state(state)
             let progressValue = Progress()
-            progressValue.totalUnitCount = .init(segmentCount)
+            progressValue.totalUnitCount = 100
             progressValue.completedUnitCount = Int64(progress)
             wrapper.handler(.transcribeReceivedProgress(progress: progressValue))
         }
@@ -186,7 +194,7 @@ extension WhisperEngine {
         return try extractSegments(from: state)
     }
 
-    private func configureTranscriptionParameters(_ params: inout whisper_full_params) {
+    private func configureTranscribeParameters(_ params: inout whisper_full_params) {
         params.print_realtime = false
         params.print_progress = configuration.printProgress
         params.print_timestamps = configuration.printTimestamps
@@ -203,8 +211,9 @@ extension WhisperEngine {
         params.logprob_thold = configuration.logProbThreshold
         params.no_speech_thold = configuration.noSpeechThreshold
 
-        if let language = configuration.language {
-            params.language = language.withCString { $0 }
+        // Use detected language if available and no language was specified in configuration
+        if let language = configuration.language, !language.isEmpty {
+            params.language = WhisperConfiguration.cLanguagePointer(language: language)
         } else {
             params.language = nil
         }
