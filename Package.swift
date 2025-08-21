@@ -4,7 +4,7 @@
 import PackageDescription
 
 let repository = "Lakr233/WhisperKit"
-let binaryHash = "be85f4dd1b3f537d56a2b8185593e93e8fc63cb484b2476187ac936e709c2f35"
+let binaryHash = "09d628e837314129c801c228a12d2f630187441f5987cfc36cd28f9b4db99c91"
 
 let package = Package(
     name: "WhisperKit",
@@ -16,7 +16,7 @@ let package = Package(
         .visionOS(.v1),
     ],
     products: [
-        .library(name: "WhisperKit", type: .static, targets: ["WhisperKit"]),
+        .library(name: "WhisperKit", type: .dynamic, targets: ["WhisperKit"]),
     ],
     targets: [
         .target(
