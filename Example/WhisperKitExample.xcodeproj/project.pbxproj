@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		507550D22E5753DA007DB636 /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = 507550D12E5753DA007DB636 /* WhisperKit */; settings = {ATTRIBUTES = (Required, ); }; };
+		507550E62E576FAA007DB636 /* WhisperKit in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 507550D12E5753DA007DB636 /* WhisperKit */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -17,6 +18,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				507550E62E576FAA007DB636 /* WhisperKit in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
