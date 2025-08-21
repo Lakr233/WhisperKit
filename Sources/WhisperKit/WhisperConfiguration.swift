@@ -6,13 +6,40 @@
 //
 
 import Foundation
+import Metal
+
+private let hasMetalDevice = MTLCreateSystemDefaultDevice() != nil
+private let isUnsupportedDeviceVersionForMetalCompute = {
+    // check if is on iOS and 16.x < 17.0, if so, fallback to CPU
+    if #available(iOS 16.0, *) {
+        let systemVersion = ProcessInfo.processInfo.operatingSystemVersion
+        return systemVersion.majorVersion < 17
+    }
+    return false
+}()
 
 public struct WhisperConfiguration {
     // MARK: - Audio Processing
 
     public var sampleRate: Int = 16000
     public var numberOfThreads: Int = ProcessInfo.processInfo.processorCount
-    public var useGPU: Bool = true
+
+    private var _useGPU: Bool = true
+    public var useGPU: Bool {
+        get {
+            if _useGPU, !hasMetalDevice {
+                print("Warning: GPU support is enabled, but no Metal device is available. Falling back to CPU.")
+                return false
+            }
+            if _useGPU, isUnsupportedDeviceVersionForMetalCompute {
+                print("Warning: Unsupported device version for Metal compute. Falling back to CPU.")
+                return false
+            }
+            return _useGPU
+        }
+        set { _useGPU = newValue }
+    }
+
     public var flashAttention: Bool = false
 
     // MARK: - Language Settings

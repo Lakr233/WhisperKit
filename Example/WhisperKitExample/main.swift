@@ -25,7 +25,8 @@ class WhisperKitManager {
                 forResource: "ggml-large-v3-turbo-q8_0",
                 withExtension: "bin",
                 subdirectory: "Models"
-            )
+            ),
+            FileManager.default.fileExists(atPath: modelURL.path)
         else {
             throw NSError(
                 domain: "WhisperKit",

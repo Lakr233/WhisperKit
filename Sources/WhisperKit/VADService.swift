@@ -27,7 +27,7 @@ public final class VADService {
         }
 
         var vadParams = whisper_vad_default_context_params()
-        vadParams.use_gpu = false
+        vadParams.use_gpu = true
         vadParams.n_threads = 4
 
         context = whisper_vad_init_from_file_with_params(modelPath, vadParams)
