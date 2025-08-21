@@ -109,5 +109,5 @@ public final class VADService {
 
 public extension VADService {
     static let builtinModel = Bundle.module
-        .url(forResource: "ggml-silero-v5.1.2", withExtension: "bin")!
+        .url(forResource: "ggml-silero-v5.1.2", withExtension: "")!
 }

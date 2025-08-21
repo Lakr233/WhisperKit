@@ -21,12 +21,13 @@ let package = Package(
                 .target(name: "whisper"),
             ],
             resources: [
-                .copy("Resources/Models/ggml-silero-v5.1.2.bin"),
+                .copy("Resources/ggml-silero-v5.1.2"),
             ]
         ),
         .binaryTarget(
             name: "whisper",
-            path: "./BinaryTarget/whisper.xcframework.zip"
+            url: "https://github.com/Lakr233/WhisperKit/releases/download/whisper.xcframework/e4fd5593a23ea7e4eade2c7dbc926f667c62eaad91c8023ae7f64679a4109cac-whisper.xcframework.zip",
+            checksum: "e4fd5593a23ea7e4eade2c7dbc926f667c62eaad91c8023ae7f64679a4109cac"
         ),
     ]
 )
