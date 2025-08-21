@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5065C8502E57306E001FC3DC /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5065C84F2E57306E001FC3DC /* WhisperKit */; };
-		5065C8512E57306E001FC3DC /* WhisperKit in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 5065C84F2E57306E001FC3DC /* WhisperKit */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		507550D22E5753DA007DB636 /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = 507550D12E5753DA007DB636 /* WhisperKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -18,7 +17,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5065C8512E57306E001FC3DC /* WhisperKit in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -45,7 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5065C8502E57306E001FC3DC /* WhisperKit in Frameworks */,
+				507550D22E5753DA007DB636 /* WhisperKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,7 +95,7 @@
 			);
 			name = WhisperKitExample;
 			packageProductDependencies = (
-				5065C84F2E57306E001FC3DC /* WhisperKit */,
+				507550D12E5753DA007DB636 /* WhisperKit */,
 			);
 			productName = WhisperKitExample;
 			productReference = 5065C82A2E57303B001FC3DC /* WhisperKitExample.app */;
@@ -375,7 +373,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5065C84F2E57306E001FC3DC /* WhisperKit */ = {
+		507550D12E5753DA007DB636 /* WhisperKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WhisperKit;
 		};

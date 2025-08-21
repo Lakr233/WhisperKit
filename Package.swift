@@ -3,6 +3,9 @@
 
 import PackageDescription
 
+let repository = "Lakr233/WhisperKit"
+let binaryHash = "be85f4dd1b3f537d56a2b8185593e93e8fc63cb484b2476187ac936e709c2f35"
+
 let package = Package(
     name: "WhisperKit",
     platforms: [
@@ -13,7 +16,7 @@ let package = Package(
         .visionOS(.v1),
     ],
     products: [
-        .library(name: "WhisperKit", type: .dynamic, targets: ["WhisperKit"]),
+        .library(name: "WhisperKit", type: .static, targets: ["WhisperKit"]),
     ],
     targets: [
         .target(
@@ -27,8 +30,8 @@ let package = Package(
         ),
         .binaryTarget(
             name: "whisper",
-            url: "https://github.com/Lakr233/WhisperKit/releases/download/whisper.xcframework/3568601e1090a4a568e1e32d461aebfca196e60b975d7022235038385f678d3f-whisper.xcframework.zip",
-            checksum: "3568601e1090a4a568e1e32d461aebfca196e60b975d7022235038385f678d3f"
+            url: "https://github.com/\(repository)/releases/download/whisper.xcframework/\(binaryHash)-whisper.xcframework.zip",
+            checksum: binaryHash
         ),
     ]
 )
