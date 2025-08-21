@@ -25,6 +25,7 @@ function test_build() {
 }
 
 test_build "generic/platform=macOS"
+test_build "generic/platform=macOS,variant=Mac Catalyst"
 test_build "generic/platform=iOS"
 test_build "generic/platform=iOS Simulator"
 test_build "generic/platform=tvOS"

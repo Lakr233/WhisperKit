@@ -6,9 +6,10 @@ import PackageDescription
 let package = Package(
     name: "WhisperKit",
     platforms: [
-        .macOS(.v12),
-        .iOS(.v15),
-        .tvOS(.v15),
+        .macOS(.v13),
+        .macCatalyst(.v16),
+        .iOS(.v16),
+        .tvOS(.v16),
         .visionOS(.v1),
     ],
     products: [
@@ -26,8 +27,8 @@ let package = Package(
         ),
         .binaryTarget(
             name: "whisper",
-            url: "https://github.com/Lakr233/WhisperKit/releases/download/whisper.xcframework/e4fd5593a23ea7e4eade2c7dbc926f667c62eaad91c8023ae7f64679a4109cac-whisper.xcframework.zip",
-            checksum: "e4fd5593a23ea7e4eade2c7dbc926f667c62eaad91c8023ae7f64679a4109cac"
+            url: "https://github.com/Lakr233/WhisperKit/releases/download/whisper.xcframework/3568601e1090a4a568e1e32d461aebfca196e60b975d7022235038385f678d3f-whisper.xcframework.zip",
+            checksum: "3568601e1090a4a568e1e32d461aebfca196e60b975d7022235038385f678d3f"
         ),
     ]
 )
