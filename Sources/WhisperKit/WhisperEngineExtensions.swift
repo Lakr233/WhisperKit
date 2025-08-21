@@ -202,7 +202,6 @@ extension WhisperEngine {
         params.entropy_thold = configuration.entropyThreshold
         params.logprob_thold = configuration.logProbThreshold
         params.no_speech_thold = configuration.noSpeechThreshold
-        params.initial_prompt = WhisperConfiguration.cInitialPrompt()
 
         // Use detected language if available and no language was specified in configuration
         if let language = configuration.language, !language.isEmpty {
