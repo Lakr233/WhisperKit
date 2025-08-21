@@ -168,18 +168,10 @@ extension WhisperEngine {
                 wrapper.handler(.transcribeReceivedSegment(text: text, startTime: startTime, endTime: endTime))
             }
         }
-        let encoderBeginCallback: @convention(c) (OpaquePointer?, OpaquePointer?, UnsafeMutableRawPointer?) -> Bool = { _, _, userData in
-            guard let userData else { return true }
-            let wrapper = Unmanaged<EventHandlerWrapper>.fromOpaque(userData).takeUnretainedValue()
-            wrapper.handler(.transcribeBegin)
-            return true
-        }
         params.progress_callback = progressCallback
         params.progress_callback_user_data = userData
         params.new_segment_callback = segmentCallback
         params.new_segment_callback_user_data = userData
-        params.encoder_begin_callback = encoderBeginCallback
-        params.encoder_begin_callback_user_data = userData
 
         let result = audioData.withUnsafeBufferPointer { buffer in
             whisper_full_with_state(context, state, params, buffer.baseAddress, Int32(buffer.count))
