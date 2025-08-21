@@ -4,7 +4,7 @@
 import PackageDescription
 
 let repository = "Lakr233/WhisperKit"
-let binaryHash = "09d628e837314129c801c228a12d2f630187441f5987cfc36cd28f9b4db99c91"
+let binaryHash = "a1a4043a47a5d662402d43c22f4e0d094bc7974c706f483a191d6574cef4f7f8"
 
 let package = Package(
     name: "WhisperKit",
