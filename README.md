@@ -50,6 +50,40 @@ open WhisperKitExample.xcodeproj
 
 Select your target device in Xcode and click Run to start using WhisperKit.
 
+## Basic Usage
+
+### Initialization
+
+First, initialize WhisperKit with a model URL:
+
+```swift
+import WhisperKit
+
+let modelURL = Bundle.main.url(forResource: "ggml-large-v3-turbo-q8_0", withExtension: "bin")!
+let whisperKit = try WhisperKit(modelURL: modelURL)
+```
+
+### Transcribing Audio
+
+To transcribe audio data, provide an array of Float values representing the audio samples:
+
+```swift
+let audioData: [Float] = // Your audio data here
+let transcription = try whisperKit.transcribe(audioData: audioData)
+print("Transcription: \(transcription.fullText)")
+```
+
+### Language Detection
+
+Detect the language of the audio:
+
+```swift
+let language = try whisperKit.detectLanguage(from: audioData)
+print("Detected language: \(language.languageCode)")
+```
+
+For more advanced usage, refer to the example app in the `Example/` directory.
+
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request.
